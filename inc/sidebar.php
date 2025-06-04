@@ -20,12 +20,12 @@
                     </a>
                 </li>
                 <li>
-                    <a href="components-badges.html">
+                    <a href="?page=major">
                         <i class="bi bi-circle"></i><span>Major</span>
                     </a>
                 </li>
                 <li>
-                    <a href="components-breadcrumbs.html">
+                    <a href="?page=role">
                         <i class="bi bi-circle"></i><span>Role</span>
                     </a>
                 </li>

@@ -30,7 +30,7 @@ if (isset($_POST['name'])) {
     <div class="col sm-12">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Add User</h5>
+                <h5 class="card-title"><?php echo isset($id_user) ? 'Edit' : 'Add' ?>User</h5>
 
                 <form action="" method="post">
                     <div class="mb-3">
