@@ -13,16 +13,25 @@ if (isset($_GET['delete'])) {
 
 
 $id = isset($_GET['id']) ? $_GET['id'] : '';
+$edit = isset($_GET['edit']) ? $_GET['edit'] : '';
+$queryedit = mysqli_query($config, "SELECT * FROM instructors_majors ORDER BY id DESC");
+$rowedit = mysqli_fetch_assoc($queryedit);
 
 if (isset($_POST['id_majors'])) {
     // ada tidak parameter bernama edit, kalo ada jalankan perintah eit/update, kalo tidak ada
     // tambah data baru / insert
     $id_majors = $_POST['id_majors'];
+    if (isset($_POST['edit'])) {
+        $update = mysqli_query($config, "UPDATE instructors_majors SET id_majors='$id_majors' WHERE id='$edit'");
+        header("location:?page=tambah-instructors-major&id=" . $id . "&ubah=berhasil");
+    } else {
 
-    $insert = mysqli_query($config, "INSERT INTO instructors_majors (id_majors, id_instructors) 
-        VALUES('$id_majors','$id')");
-    header("location:?page=tambah-instructors-major&id=" . $id . "&tambah=berhasil");
+        $insert = mysqli_query($config, "INSERT INTO instructors_majors (id_majors, id_instructors) 
+            VALUES('$id_majors','$id')");
+        header("location:?page=tambah-instructors-major&id=" . $id . "&tambah=berhasil");
+    }
 }
+
 
 $queryMajor = mysqli_query($config, "SELECT * FROM majors ORDER BY id DESC");
 $rowMajor = mysqli_fetch_all($queryMajor, MYSQLI_ASSOC);
@@ -30,9 +39,13 @@ $rowMajor = mysqli_fetch_all($queryMajor, MYSQLI_ASSOC);
 $queryInstructors = mysqli_query($config, "SELECT * FROM instructors WHERE id='$id'");
 $rowInstructors = mysqli_fetch_assoc($queryInstructors);
 
-$queryInstructorsMajor = mysqli_query($config, "SELECT majors.name, instructors_majors.id, instructors_majors.id_instructors FROM instructors_majors 
+$queryInstructorsMajor = mysqli_query($config, "SELECT majors.name AS m_name, instructors_majors.id, instructors_majors.id_instructors FROM instructors_majors 
 LEFT JOIN majors ON majors.id = instructors_majors.id_majors WHERE instructors_majors.id_instructors = '$id' ORDER BY instructors_majors.id DESC");
 $rowInstructorsMajors = mysqli_fetch_all($queryInstructorsMajor, MYSQLI_ASSOC);
+// print_r($rowInstructorsMajors);
+// die;
+
+
 
 // print_r($rowInstructorsMajors);
 // die;
@@ -61,7 +74,7 @@ $rowInstructorsMajors = mysqli_fetch_all($queryInstructorsMajor, MYSQLI_ASSOC);
                         foreach ($rowInstructorsMajors as $index => $rowInstructorsMajor): ?>
                             <tr>
                                 <td><?php echo $no++ ?></td>
-                                <td><?php echo $rowInstructorsMajor['name'] ?></td>
+                                <td><?php echo $rowInstructorsMajor['m_name'] ?></td>
                                 <td>
                                     <a onclick="return confirm('are you sure wanna delete this data')"
                                         href="?page=tambah-instructors-major&id=<?= $rowInstructorsMajor['id_instructors'] ?>&delete=<?php echo $rowInstructorsMajor['id'] ?>" class="btn btn-danger">Delete</a>
@@ -93,7 +106,7 @@ $rowInstructorsMajors = mysqli_fetch_all($queryInstructorsMajor, MYSQLI_ASSOC);
                         <select name="id_majors" id="" class="form-control">
                             <option value="">Select One</option>
                             <?php foreach ($rowMajor as $rowMajor): ?>
-                                <option value="<?php echo $rowMajor['id'] ?>"><?php echo $rowMajor['name'] ?></option>
+                                <option value="<?php echo $rowMajor['id'] ?>"> <?php echo $rowMajor['name'] ?></option>
                             <?php endforeach ?>
                         </select>
                     </div>

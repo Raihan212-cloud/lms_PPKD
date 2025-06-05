@@ -14,7 +14,7 @@ if (isset($_POST['name'])) {
     // tambah data baru / insert
     $name = $_POST['name'];
     $email = $_POST['email'];
-    $password = $_POST['password'];
+    $password = isset($_POST['password']) ? sha1($_GET['password']) : $rowedit('password');
     $id_user = isset($_GET['edit']) ? $_GET['edit'] : '';
 
     if (!isset($_GET['edit'])) {

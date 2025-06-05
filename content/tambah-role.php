@@ -28,12 +28,12 @@ if (isset($_POST['name'])) {
     <div class="col sm-12">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title"><?php echo isset($rowEdit['id']) ? 'Edit' : 'Add' ?>Roles</h5>
+                <h5 class="card-title"><?php echo isset($_GET['edit']) ? 'Edit' : 'Add' ?>Modul</h5>
 
                 <form action="" method="post">
                     <div class="mb-3">
-                        <label for="">Name Roles *</label>
-                        <input type="text" class="form-control" name="name" placeholder="Enter Your Roles" required>
+                        <label for="">Instructor Name *</label>
+                        <input type="text" class="form-control" name="name" value="<?php echo isset($rowEdit['name']) ? $rowEdit['name'] : '' ?>" placeholder="Enter Your Role" required>
                     </div>
                     <div class="mb-3">
                         <input type="submit" class="btn btn-success" name="save" value="Save">
