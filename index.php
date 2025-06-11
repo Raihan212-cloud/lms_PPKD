@@ -6,12 +6,12 @@ include 'config/koneksi.php';
 if (isset($_POST['email'])) {
     $email = $_POST['email'];
     $password = sha1($_POST['password']);
-    $role = $_POST['role'];
+    $role = $_POST['roles'];
     // tampilkan semua data dari tbl user dimana email diambil dari orang
     // yang input email dan password diamnbil dari orang yang input password
     if ($role == 1) {
         $queryLogin = mysqli_query($config, "SELECT * FROM instructors WHERE email='$email' AND password='$password'");
-    } elseif($role == 2){
+    } elseif ($role == 5) {
         $queryLogin = mysqli_query($config, "SELECT * FROM students WHERE email='$email' AND password='$password'");
     } else {
         $queryLogin = mysqli_query($config, "SELECT * FROM users WHERE 
@@ -31,6 +31,10 @@ if (isset($_POST['email'])) {
         header("location:index.php?login=eror");
     }
 }
+
+$queryRoles = mysqli_query($config, "SELECT * FROM roles ORDER BY id DESC");
+$rowRoles = mysqli_fetch_all($queryRoles, MYSQLI_ASSOC);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -119,9 +123,12 @@ if (isset($_POST['email'])) {
                                             <label for="yourRole" class="form-label">Role</label>
                                             <select name="role" id="yourRole" class="form-control">
                                                 <option value="">Pilih Role</option>
-                                                <option value="1">Instruktur</option>
-                                                <option value="2">Siswa</option>
-                                                <option value="3">Lainnya</option>
+                                                <?php foreach ($rowRoles as $role): ?>
+                                                    <option value="<?php echo $role['id'] ?>"><?php echo $role['name'] ?></option>
+                                                <?php endforeach ?>
+                                                <!-- <option value="1">Instruktur</option> -->
+                                                <!-- <option value="2">Siswa</option> -->
+                                                <!-- <option value="3">Lainnya</option> -->
                                             </select>
                                             <div class="invalid-feedback">Please select your role!</div>
                                         </div>

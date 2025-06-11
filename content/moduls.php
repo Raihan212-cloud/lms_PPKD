@@ -3,8 +3,9 @@ $id_user = isset($_SESSION['ID_USER']) ? $_SESSION['ID_USER'] : '';
 $id_role = isset($_SESSION['ID_ROLE']) ? $_SESSION['ID_ROLE'] : '';
 
 $rowStudents = mysqli_fetch_assoc(mysqli_query($config, "SELECT * FROM students WHERE id='$id_user'"));
-$id_major = $rowStudents['id_major'];
-if ($id_role == 2) {
+$id_major = isset($rowStudents['id_major']) ? $rowStudents['id_major'] : '';
+
+if ($id_role == 5) {
     $where = "WHERE moduls.id_majors='$id_major'";
 } elseif ($id_role == 1) {
     $where = "WHERE moduls.id_instructors='$id_user'";
@@ -29,7 +30,7 @@ $rows = mysqli_fetch_all($query, MYSQLI_ASSOC);
                 <h5>
                     <div class="card-title">Data Modul</div>
                 </h5>
-                <?php if ($_SESSION['ID_ROLE'] == 1): ?>
+                <?php if (canAddModul(1)): ?>
                     <div class="mb-3" align="right">
                         <a href="?page=tambah-moduls" class="btn btn-primary">Add Modul</a>
                     </div>

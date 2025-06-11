@@ -18,15 +18,16 @@ if (isset($_POST['name'])) {
     $phone = $_POST['phone'];
     $email = $_POST['email'];
     $address = $_POST['address'];
+    $id_instructors = 4;
     $password = isset($_POST['password']) ? sha1($_GET['password']) : $rowedit('password');
     $id_user = isset($_GET['edit']) ? $_GET['edit'] : '';
 
     if (!isset($_GET['edit'])) {
-        $insert = mysqli_query($config, "INSERT INTO instructors (name, gender, education, phone, email, address, password) 
-        VALUES('$name','$gender','$education','$phone','$email','$address','$password')");
+        $insert = mysqli_query($config, "INSERT INTO instructors (id_role, name, gender, education, phone, email, address, password) 
+        VALUES('id_role','$name','$gender','$education','$phone','$email','$address','$password')");
         header("location:?page=user&tambah=berhasil");
     } else {
-        $update = mysqli_query($config, "UPDATE instructors SET name = '$name', gender = '$gender', education = '$education', phone = '$phone',
+        $update = mysqli_query($config, "UPDATE instructors SET id_role = '$id_role', name = '$name', gender = '$gender', education = '$education', phone = '$phone',
          email = '$email', address = '$address', password = '$password', WHERE id ='$id_user'");
         header("location:?page=user&ubah=berhasil");
     }
